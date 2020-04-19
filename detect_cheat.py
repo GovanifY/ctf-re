@@ -31,21 +31,14 @@ def small_hash(name):
         checksum=rol(checksum, 3, 32)
 
     return checksum.to_bytes(4, byteorder='big')
- 
-def copy_dir(src, dest):
-    try:
-        shutil.copytree(src, dest)
-    except OSError as e:
-        # If the error was caused because the source wasn't a directory
-        if e.errno == errno.ENOTDIR:
-            shutil.copy(src, dest)
-        else:
-            print('Directory not copied. Error: %s' % e)
 
 team_count=0
 teams={}
+team_names=[]
 submissions=[]
 chals=[]
+chals_data={}
+flags=[]
 for i in next(os.walk('chals'))[1]:
     chals.append(i)
 
@@ -54,18 +47,23 @@ with open("teams.json", "r") as read_file:
     team_count=data['count']
     for i in range(0, team_count):
         teams[data['results'][i]['id']] = data['results'][i]['name']
+        team_names.append(data['results'][i]['name'])
+
+with open("challenges.json", "r") as read_file:
+    data = json.load(read_file)
+    chal_count=data['count']
+    for i in range(0, chal_count):
+        chals_data[data['results'][i]['id']] = data['results'][i]['name']
+
 
 with open("submissions.json", "r") as read_file:
     data = json.load(read_file)
     sub_count=data['count']
     for i in range(0, sub_count):
         submissions.append([data['results'][i]['provided'],
-            data['results'][i]['team_id']])
+            data['results'][i]['team_id'], data['results'][i]['challenge_id'],
+            data['results'][i]['type']])
 
-for i in submissions:
-    print("%s was submitted by %s" % (i[0], teams[i[1]]))
-
-exit()
 
 # flag creation is a bit complex: in theory we do a sha2 for each challenge
 # name, but also calculate through a custom hash team name + chal name that we
@@ -84,7 +82,6 @@ for i in chals:
             salts[z]-=2
 
     for y in team_names:
-        copy_dir("chals/" + i, "chals_out/" + i + "/" +  y)
         uni_hash=small_hash(i+y)
         # make it a bit harder to guess the format of the sha2
         chal_name=i+"1378528"
@@ -96,12 +93,9 @@ for i in chals:
         hash_final[salts[3]]=uni_hash[3]
         hash_final_str=hash_final.hex()
         flag = "GY{" + hash_final_str + "}"
-        with open("chals_out/" + i + "/" + y + "/flag.txt", "w") as fdflag:
-                fdflag.write(flag)
+        flags.append([y, flag])
 
-        # generate the challenge
-        subprocess.call(["python3", "setup.py"], cwd="chals_out/" + i + "/" + y)
-
+"""
         if(regex_done==False): 
             regex = list(flag)
             # we want a global regex for all challengers, so we replace
@@ -122,7 +116,23 @@ for i in chals:
             with open("chals_out/" + i + "/regex.txt", "w") as fdregex:
                 fdregex.write(''.join(regex))
             regex_done=True
+"""
 
+for i in submissions:
+    found_flag=False
+    for y in flags:
+        if(i[0]==y[1]):
+            found_flag=True
+            if(y[0]!=teams[i[1]]):
+                print(teams[i[1]] + " has cheated with " + y[0] + " on challenge "
+                + chals_data[i[2]] + " with 100% probability!")
+
+    if(i[3]=="correct" and found_flag==False):
+        print(teams[i[1]] + " has somehow removed indentifying bytes on challenge "
+                + chals_data[i[2]] + " and validated it, they most likely" +
+                " cheated but are somewhat smart!")
+    
+#print("cheated with 99.9999999997% (1/256**4), manual verification required)")
 
 
 
