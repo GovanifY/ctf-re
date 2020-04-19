@@ -39,6 +39,7 @@ submissions=[]
 chals=[]
 chals_data={}
 flags=[]
+uni_bytes=[]
 for i in next(os.walk('chals'))[1]:
     chals.append(i)
 
@@ -92,47 +93,45 @@ for i in chals:
         hash_final[salts[2]]=uni_hash[2]
         hash_final[salts[3]]=uni_hash[3]
         hash_final_str=hash_final.hex()
+        uni_bytes.append([salts[0], uni_hash[0], salts[1], uni_hash[1],
+            salts[2], uni_hash[2], salts[3], uni_hash[3], y, i]) 
         flag = "GY{" + hash_final_str + "}"
         flags.append([y, flag])
 
-"""
-        if(regex_done==False): 
-            regex = list(flag)
-            # we want a global regex for all challengers, so we replace
-            # identifying bytes in the regex. The anti cheat script is going to
-            # be ran after the ctf anyways
-            regex[((salts[0]*2)+3)]="."
-            regex[((salts[0]*2)+3)+1]="."
-
-            regex[((salts[1]*2)+3)]="."
-            regex[((salts[1]*2)+3)+1]="."
-
-            regex[((salts[2]*2)+3)]="."
-            regex[((salts[2]*2)+3)+1]="."
-
-            regex[((salts[3]*2)+3)]="."
-            regex[((salts[3]*2)+3)+1]="."
-
-            with open("chals_out/" + i + "/regex.txt", "w") as fdregex:
-                fdregex.write(''.join(regex))
-            regex_done=True
-"""
 
 for i in submissions:
     found_flag=False
+    done_flag=False
+    # if flag is directly copied
     for y in flags:
         if(i[0]==y[1]):
             found_flag=True
             if(y[0]!=teams[i[1]]):
                 print(teams[i[1]] + " has cheated with " + y[0] + " on challenge "
                 + chals_data[i[2]] + " with 100% probability!")
+                done_flag=True
 
+    if(done_flag):
+        continue
+
+    # if we only found the identifying bytes used at some point
+    i_hash=i[0].replace("GY{", "")
+    i_hash=i_hash.replace("}", "")
+    i_hash=bytes.fromhex(i_hash)
+    for y in uni_bytes:
+        if(i_hash[y[0]] == y[1] and i_hash[y[2]] == y[3] and i_hash[y[4]] ==
+                y[5] and i_hash[y[6]] == y[7] and teams[i[1]]!=y[8]):
+            print("identifying bytes from team " + y[8] + " in challenge " +
+                    y[9] + " used by " +
+                    teams[i[1]] + " on challenge " + chals_data[i[2]] + 
+                    "; this has a 0.0000000002% (1/256**4) chance of happening"
+                    + " approximately, a manual verification is needed")
+    if(done_flag):
+        continue
+
+    # otherwise if the flag validated but we have no clue who they stole from
     if(i[3]=="correct" and found_flag==False):
         print(teams[i[1]] + " has somehow removed indentifying bytes on challenge "
                 + chals_data[i[2]] + " and validated it, they most likely" +
                 " cheated but are somewhat smart!")
-    
-#print("cheated with 99.9999999997% (1/256**4), manual verification required)")
-
-
 
