@@ -109,33 +109,15 @@ void flag6(unsigned int arg_check2, unsigned int arg_check3) {
 }
 
 void xor(){
-    int i;
-    for (i = 0; i < 80; i++) {
-        if(test[i] == 0x00){
-            return;
-        }
-       test[i] = (unsigned int)test[i] ^ (i%256);
-    }
+    memset(test,0,strlen(test));
 }
 
 void xor2(){
-    int i;
-    for (i = 0; i < 80; i++) {
-        if(test[i] == 0x00){
-            return;
-        }
-       test[i] = (unsigned int)test[i] ^ (i%256);
-    }
+    memset(test,0,strlen(test));
 }
 
 void xor3(){
-    int i;
-    for (i = 0; i < 80; i++) {
-        if(test[i] == 0x00){
-            return;
-        }
-       test[i] = (unsigned int)test[i] ^ (i%256);
-    }
+    memset(test,0,strlen(test));
 }
 
 void vuln() {
