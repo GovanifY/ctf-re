@@ -126,6 +126,8 @@ for i in submissions:
                     teams[i[1]] + " on challenge " + chals_data[i[2]] + 
                     "; this has a 0.0000000002% (1/256**4) chance of happening"
                     + " approximately, a manual verification is needed")
+            done_flag=True
+
     if(done_flag):
         continue
 
