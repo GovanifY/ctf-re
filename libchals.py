@@ -161,6 +161,16 @@ junk_calls=[
 """
 """,
 """
+uint8_t VAR_NAME[120];
+VAR_NAME[0]=0x3;
+VAR_NAME[1]=0xD3;
+VAR_NAME[2]=0x3E33;
+VAR_NAME[3]=0x394EDDE;
+VAR_NAME[4]=0xAAAA1;
+VAR_NAME[5]=0xFFFFFFFF;
+uint16_t VAR_NAMEa= FUNCTION_NAME(test, 6);
+char VAR_NAMEb [50];
+sprintf (VAR_NAMEb, "result: %d", VAR_NAMEa);
 """,
 """
 int VAR_NAME=FUNCTION_NAME(FUNCTION_NAME(3));

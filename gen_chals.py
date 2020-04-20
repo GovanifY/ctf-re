@@ -42,6 +42,36 @@ def copy_dir(src, dest):
         else:
             print('Directory not copied. Error: %s' % e)
 
+def avoid_borders(salts):
+    for i in range(0, len(salts)):
+        if(salts[i]==0):
+            salts[i]+=2
+        elif(salts[i]==32):
+            salts[i]-=2
+
+# check if a list has a duplicate element el
+def is_dup(l, el):
+    count=0
+    for i in range(0, len(l)):
+            if(l[i]==el):
+                count+=1
+    if(count>1):
+        return True
+    return False
+
+def add_salt(salts, b):
+        salts.append(b)
+        avoid_borders(salts)
+
+        # duplicate
+        for i in range(0, len(salts)):
+            if(is_dup(salts, salts[i])):
+                avoid_borders(salts)
+                salts[i]=(salts[i]+1)%32
+                i=0
+        return salts
+
+
 shutil.rmtree("chals_out/")
 team_count=0
 team_names=[]
@@ -65,11 +95,7 @@ for i in chals:
     salt_chal=small_hash(i)
     salts=[]
     for z in range(0, 4):
-        salts.append(salt_chal[z]%32)
-        if(salts[z]==0):
-            salts[z]+=2
-        elif(z==32):
-            salts[z]-=2
+        salts=add_salt(salts, salt_chal[z]%32)
 
     for y in team_names:
         copy_dir("chals/" + i, "chals_out/" + i + "/" +  y)
