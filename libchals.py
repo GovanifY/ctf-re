@@ -62,6 +62,11 @@ def random_name(size=20, chars=string.ascii_uppercase + string.ascii_lowercase):
    return ''.join(random.choice(chars) for _ in range(size))
 
 junk=["""
+typedef struct {
+    char infos[50];
+    uint8_t cle[16];
+}FUNCTION_NAMEstru;
+
 void FUNCTION_NAME (uint32_t v[2], uint32_t k[4]) {
     uint32_t v0=v[0], v1=v[1], sum=0, i;           /* set up */
     uint32_t delta=0x9E3779B9;                     /* a key schedule constant */
@@ -75,6 +80,11 @@ void FUNCTION_NAME (uint32_t v[2], uint32_t k[4]) {
 }
 """,
 """
+typedef struct {
+    char infos[50];
+    uint8_t cle[16];
+}FUNCTION_NAMEstru;
+
 void FUNCTION_NAME (uint32_t v[2], uint32_t k[4]) {
     uint32_t v0=v[0], v1=v[1], sum=0xC6EF3720, i;  /* set up; sum is 32*delta */
     uint32_t delta=0x9E3779B9;                     /* a key schedule constant */
@@ -99,7 +109,7 @@ void *FUNCTION_NAME(void *block, size_t size) {
 void * FUNCTION_NAME(size_t size) {
   void *block = malloc(size);
   if (block == NULL) {
-    fprintf(stderr, "out of memory in static heap (%zd bytes requested)\n", size);
+    fprintf(stderr, "out of memoryin static heap (%zd bytes requested); cannot calculate flag\n", size);
     abort();
   }
   return block;
@@ -151,14 +161,40 @@ unsigned int FUNCTION_NAME(unsigned int b) {
 
 junk_calls=[
 """
+FUNCTION_NAMEstru VAR_NAME;
+memset(VAR_NAME.infos, 0xCCFF, sizeof(VAR_NAME.infos));
+memset(VAR_NAME.cle, 0xAABB, sizeof(VAR_NAME.cle));
+for(int VAR_NAMEb=0; VAR_NAMEb<50; VAR_NAMEb+=4) {
+    FUNCTION_NAME((uint32_t*)(VAR_NAME.infos+VAR_NAMEb), (uint32_t*)VAR_NAME.cle);
+}
 """,
 """
+FUNCTION_NAMEstru VAR_NAME;
+memset(VAR_NAME.infos, 0xAABB, sizeof(VAR_NAME.infos));
+memset(VAR_NAME.cle, 0xCCFF, sizeof(VAR_NAME.cle));
+for(int VAR_NAMEb=0; VAR_NAMEb<50; VAR_NAMEb+=4) {
+    FUNCTION_NAME((uint32_t*)(VAR_NAME.infos+VAR_NAMEb), (uint32_t*)VAR_NAME.cle);
+}
 """,
 """
+/* This is left intentionally blank */
 """,
 """
+int32_t *VAR_NAME = FUNCTION_NAME(0x17 * sizeof(int32_t));
+char VAR_NAMEb [50];
+if (VAR_NAME == NULL) /* Memory allocation fails */
+{
+sprintf (VAR_NAMEb, "Couldn't");
+}
+else  /* Memory allocation successful */
+{
+sprintf (VAR_NAMEb, "successful");
+}
 """,
 """
+for(unsigned int VAR_NAME=0; VAR_NAME<15; VAR_NAME--){
+    VAR_NAME=FUNCTION_NAME();
+}
 """,
 """
 uint8_t VAR_NAME[120];
