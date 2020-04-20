@@ -10,9 +10,9 @@ challenges done:
 * reverse_rop
 * simple_rop
 * simple_rop_2
+* web_server
 
 TODO:
 * modern_rop
 * reverse
 * misc format_string(?)
-* misc command_injection(?)

