@@ -10,6 +10,9 @@
 
 char *test[80];
 
+//--JUNK CODE--
+
+//--JUNK CODE--
 
 void flag1() {
   strcat(test,"FLAG_PART_1");
@@ -141,7 +144,4 @@ int main(int argc, char **argv){
 }
 
 
-//--JUNK CODE--
-
-//--JUNK CODE--
 

@@ -4,9 +4,9 @@ import string
 
 """
 Some limitations:
-    The junk code must be added at the end of the source file
-    You must write junk code from bottom to top, aka first junk definitions,
-    then junk calls, if called at multiple place, from the bottom up.
+    The junk code must be added at the beginning of the source file
+    You must write junk code from bottom to top, aka first junk calls,
+    then junk definition, from the bottom up.
 """
 def rng(index):
     BUF_SIZE = 65536 
@@ -177,13 +177,17 @@ fun_names=[]
 junk_called=0
 def write_junk_body(fd, line):
     # junk generator!!
+    dont_gen_name=False
     junk_count=rng(0)%len(junk)
+    if(fun_names!=[]):
+        dont_gen_name=True
     for i in range(0, junk_count+1):
         junk_to_add=rng(i%len(junk))%len(junk)
         # use this 
-        fun_names.append(random_name())
-        write_line(fd, line, junk[junk_to_add].replace("FUNCTION_NAME",
-            random_name()))
+        if(not dont_gen_name):
+            fun_names.append(random_name())
+        write_line(fd, line,
+                junk[junk_to_add].replace("FUNCTION_NAME",fun_names[i]))
 
 def write_junk_calls(fd, line, count=-1):
     # junk generator!!
@@ -191,9 +195,19 @@ def write_junk_calls(fd, line, count=-1):
     junk_count=rng(0)%len(junk)
     if(count==-1):
         count=junk_count+1
+    if(fun_names==[] and junk_called==0):
+        gen_fun_names()
     for i in range(junk_called, count):
         junk_to_add=rng(i%len(junk))%len(junk)
         # use this 
-        tmp=junk_calls[junk_to_add].replace("FUNCTION_NAME", random_name())
+        tmp=junk_calls[junk_to_add].replace("FUNCTION_NAME", fun_names[i])
         write_line(fd, line, tmp.replace("VAR_NAME", random_name()))
         junk_called+=1
+
+def gen_fun_names():
+    # junk generator!!
+    junk_count=rng(0)%len(junk)
+    for i in range(0, junk_count+1):
+        junk_to_add=rng(i%len(junk))%len(junk)
+        # use this 
+        fun_names.append(random_name())
