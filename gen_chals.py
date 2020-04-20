@@ -15,6 +15,9 @@ ror = lambda val, r_bits, max_bits: \
     ((val & (2**max_bits-1)) >> r_bits%max_bits) | \
     (val << (max_bits-(r_bits%max_bits)) & (2**max_bits-1))
 
+# pwgen
+SECRET="koof9nuamaiquaeNee0l"
+
 def small_hash(name):
     checksum=0
     for byte in name:
@@ -101,7 +104,7 @@ for i in chals:
         copy_dir("chals/" + i, "chals_out/" + i + "/" +  y)
         uni_hash=small_hash(i+y)
         # make it a bit harder to guess the format of the sha2
-        chal_name=i+"1378528"
+        chal_name=i+SECRET
         hash_final=bytearray(bytes.fromhex(hashlib.sha256(chal_name.encode()).hexdigest()))
         # we replace by the identifying bytes
         hash_final[salts[0]]=uni_hash[0]

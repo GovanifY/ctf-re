@@ -53,6 +53,7 @@ def make_binary():
     else:
         return 0
 
+i=0
 while True:
     shutil.copy("main.c", "main.c.org")
     if(make_binary()==0):
@@ -62,6 +63,10 @@ while True:
         # unstable binary simple_rop_2, retrying entropy until
         # rng jesus is happy
         shutil.copy("main.c.org", "main.c")
+        i+=1
+        if(i>=5):
+            print("RNG Jesus isn't happy today, " +
+            "it is taking a long time to get a good binary...")
 os.remove("main.c")
 os.remove("main.c.org")
 os.remove("Makefile")
