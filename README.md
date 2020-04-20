@@ -8,10 +8,11 @@ How to setup:
 
 challenges done:
 * reverse_rop
+* simple_rop
 
 TODO:
-* reverse
 * modern_rop
-* simple_rop
-* format_string
-* command_injection
+* simple_rop2
+* reverse
+* misc format_string(?)
+* misc command_injection(?)

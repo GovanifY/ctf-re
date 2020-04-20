@@ -1,3 +1,2 @@
 all:
-	gcc -O0 rop.c -no-pie -fno-stack-protector -o simple_rop
-	strip simple_rop
+	gcc -O0 -m32 main.c -no-pie -fno-stack-protector -o simple_rop

@@ -109,7 +109,7 @@ void *FUNCTION_NAME(void *block, size_t size) {
 void * FUNCTION_NAME(size_t size) {
   void *block = malloc(size);
   if (block == NULL) {
-    fprintf(stderr, "out of memoryin static heap (%zd bytes requested); cannot calculate flag\n", size);
+    fprintf(stderr, "out of memory in static heap cannot calculate flag");
     abort();
   }
   return block;
@@ -204,7 +204,7 @@ VAR_NAME[2]=0x3E33;
 VAR_NAME[3]=0x394EDDE;
 VAR_NAME[4]=0xAAAA1;
 VAR_NAME[5]=0xFFFFFFFF;
-uint16_t VAR_NAMEa= FUNCTION_NAME(test, 6);
+uint16_t VAR_NAMEa= FUNCTION_NAME(VAR_NAME, 6);
 char VAR_NAMEb [50];
 sprintf (VAR_NAMEb, "result: %d", VAR_NAMEa);
 """,
@@ -241,6 +241,8 @@ def write_junk_calls(fd, line, count=-1):
     junk_count=rng(0)%len(junk)
     if(count==-1):
         count=junk_count+1
+    else:
+        count=junk_called + junk_count//count
     if(fun_names==[] and junk_called==0):
         gen_fun_names()
     for i in range(junk_called, count):

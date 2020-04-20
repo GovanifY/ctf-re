@@ -10,48 +10,41 @@
 
 bool win1 = false;
 bool win2 = false;
+
+
 //--JUNK CODE--
 
 //--JUNK CODE--
+
 void win_function1() {
+
+//--JUNK CODE--
+
+//--JUNK CODE--
+
   win1 = true;
 }
 
 void win_function2(unsigned int arg_check1) {
-  if (win1 && arg_check1 == 0xBAAAAAAD) {
+
+//--JUNK CODE--
+
+//--JUNK CODE--
+
+  if (win1 && arg_check1 != 0xAABBCCDD) {
     win2 = true;
-  }
-  else if (win1) {
-    printf("Wrong Argument. Try Again.\n");
-  }
-  else {
-    printf("Nope. Try a little bit harder.\n");
   }
 }
 
-void flag(unsigned int arg_check2) {
-  char flag[48];
+void flag(unsigned int arg_check4) {
+  char flag[80];
   FILE *file;
   file = fopen("flag.txt", "r");
-  if (file == NULL) {
-    printf("Flag File is Missing. Problem is Misconfigured, please contact an Admin if you are running this on the shell server.\n");
-    exit(0);
-  }
 
   fgets(flag, sizeof(flag), file);
-  
-  if (win1 && win2 && arg_check2 == 0xDEADBAAD) {
+  if (win1 && win2 && arg_check4 == 0xABADBABE) {
     printf("%s", flag);
     return;
-  }
-  else if (win1 && win2) {
-    printf("Incorrect Argument. Remember, you can call other functions in between each win function!\n");
-  }
-  else if (win1 || win2) {
-    printf("Nice Try! You're Getting There!\n");
-  }
-  else {
-    printf("You won't get the flag that easy..\n");
   }
 }
 

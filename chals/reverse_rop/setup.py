@@ -7,7 +7,7 @@ from libchals import *
 
 from pwn import *
 # junk code generation
-write_junk_calls("main.c", 134, len(fun_names)//2)
+write_junk_calls("main.c", 134, 2)
 write_junk_calls("main.c", 62)
 write_junk_body("main.c", 14)
 
