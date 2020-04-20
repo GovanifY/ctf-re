@@ -6,12 +6,15 @@ sys.path.insert(1, os.path.join(sys.path[0], '../../..'))
 from libchals import *
 from pwn import *
 
+context.log_level = 'error'
+FNULL = open(os.devnull, 'w')
+
 # junk code generation
 #write_junk_calls("main.c", 31, 2)
 #write_junk_calls("main.c", 22)
 write_junk_body("main.c", 16)
 
-subprocess.call("make")
+subprocess.call("make", stdout=FNULL, stderr=FNULL)
 
 
 
@@ -35,7 +38,17 @@ f.write(exploit)
 f.close()
 
 # strip it after the ropchain building so they don't have the symbols but we do
-#subprocess.call(["strip", "simple_rop_2"])
+#subprocess.call(["strip", "simple_rop_2"], stdout=FNULL, stderr=FNULL)
+
+# TESTING BINARY
+f=open("flag.txt", 'r')
+flag = f.readline()
+try:
+    output = subprocess.check_output("./simple_rop_2 < input", shell=True, stderr=subprocess.STDOUT)
+except Exception as e:
+    output = str(e.output)
+if not flag in output:
+    fail_test()
 
 
 #os.remove("main.c")

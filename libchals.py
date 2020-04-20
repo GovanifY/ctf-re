@@ -1,6 +1,8 @@
 import random 
 import hashlib
 import string
+from colorama import Fore, Back, Style
+from pathlib import Path
 
 """
 Some limitations:
@@ -52,6 +54,10 @@ def replace_text_random_hash(fd, to_change):
     fdd = open(fd, "w")
     fdd.writelines(buf) 
     fdd.close()
+
+def fail_test():
+    print(Fore.RED + "ERROR: BINARY IN " + str(Path().absolute()) + " IS NOT SOLVABLE")
+    print(Style.RESET_ALL)
 
 
 

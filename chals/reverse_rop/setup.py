@@ -1,11 +1,17 @@
 import subprocess
 import os
 import sys
+from colorama import Fore, Back, Style
                     # chals_out/chal_name/team_name so 3
 sys.path.insert(1, os.path.join(sys.path[0], '../../..'))
 from libchals import *
 
 from pwn import *
+
+context.log_level = 'error'
+FNULL = open(os.devnull, 'w')
+
+
 # junk code generation
 write_junk_calls("main.c", 134, 2)
 write_junk_calls("main.c", 62)
@@ -30,7 +36,7 @@ replace_text_random_hash("main.c", "FLAG_WRONG")
 
 
 
-subprocess.call("make")
+subprocess.call("make", stdout=FNULL, stderr=FNULL)
 
 # we generate the rop
 elf = ELF("reverse_rop")
@@ -57,7 +63,7 @@ f.write(exploit)
 f.close()
 
 # strip it after the ropchain building so they don't have the symbols but we do
-subprocess.call(["strip", "reverse_rop"])
+subprocess.call(["strip", "reverse_rop"], stdout=FNULL, stderr=FNULL)
 
 
 os.remove("main.c")
@@ -65,3 +71,11 @@ os.remove("Makefile")
 os.remove("setup.py")
 os.remove("flag.txt")
 
+
+# TESTING BINARY
+try:
+    output = subprocess.check_output("gdb -ex 'run < input' -ex 'print $eip' -ex quit ./reverse_rop | tail -n 1", shell=True, stderr=subprocess.STDOUT)
+except Exception as e:
+    output = str(e.output)
+if not b"0xbbccdde3" in output:
+    fail_test()
