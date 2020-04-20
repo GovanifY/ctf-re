@@ -56,8 +56,7 @@ def replace_text_random_hash(fd, to_change):
     fdd.close()
 
 def fail_test():
-    print(Fore.RED + "ERROR: BINARY IN " + str(Path().absolute()) + " IS NOT SOLVABLE")
-    print(Style.RESET_ALL)
+    print(Fore.RED + "ERROR: BINARY IN " + str(Path().absolute()) + " IS NOT SOLVABLE" + Style.RESET_ALL)
 
 
 
