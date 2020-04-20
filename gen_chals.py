@@ -71,8 +71,8 @@ def add_salt(salts, b):
                 i=0
         return salts
 
-
-shutil.rmtree("chals_out/")
+if os.path.exists("chals_out/") and os.path.isdir("chals_out/"):
+    shutil.rmtree("chals_out/")
 team_count=0
 team_names=[]
 chals=[]
