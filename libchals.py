@@ -2,6 +2,12 @@ import random
 import hashlib
 import string
 
+"""
+Some limitations:
+    The junk code must be added at the end of the source file
+    You must write junk code from bottom to top, aka first junk definitions,
+    then junk calls, if called at multiple place, from the bottom up.
+"""
 def rng(index):
     BUF_SIZE = 65536 
     sha2 = hashlib.sha256()
@@ -143,12 +149,51 @@ unsigned int FUNCTION_NAME(unsigned int b) {
 """
 ]
 
+junk_calls=[
+"""
+""",
+"""
+""",
+"""
+""",
+"""
+""",
+"""
+""",
+"""
+""",
+"""
+int VAR_NAME=FUNCTION_NAME(FUNCTION_NAME(3));
+VAR_NAME=VAR_NAME<<3;
+""",
+"""
+unsigned int VAR_NAME=FUNCTION_NAME(157);
+VAR_NAME=VAR_NAME+VAR_NAME;
+VAR_NAME=(VAR_NAME/VAR_NAME)*2;
+"""
+]
+
+fun_names=[]
+junk_called=0
 def write_junk_body(fd, line):
     # junk generator!!
     junk_count=rng(0)%len(junk)
     for i in range(0, junk_count+1):
         junk_to_add=rng(i%len(junk))%len(junk)
         # use this 
-        name_call=random_name()
+        fun_names.append(random_name())
         write_line(fd, line, junk[junk_to_add].replace("FUNCTION_NAME",
             random_name()))
+
+def write_junk_calls(fd, line, count=-1):
+    # junk generator!!
+    global junk_called
+    junk_count=rng(0)%len(junk)
+    if(count==-1):
+        count=junk_count+1
+    for i in range(junk_called, count):
+        junk_to_add=rng(i%len(junk))%len(junk)
+        # use this 
+        tmp=junk_calls[junk_to_add].replace("FUNCTION_NAME", random_name())
+        write_line(fd, line, tmp.replace("VAR_NAME", random_name()))
+        junk_called+=1

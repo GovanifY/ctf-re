@@ -7,7 +7,9 @@ from libchals import *
 
 from pwn import *
 # junk code generation
-write_junk_body("main.c", 13)
+write_junk_body("main.c", 145)
+write_junk_calls("main.c", 131, len(fun_names)//2)
+write_junk_calls("main.c", 59)
 
 # replace flags in source file
 f = open("flag.txt", "r")

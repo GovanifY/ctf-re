@@ -10,9 +10,6 @@
 
 char *test[80];
 
-//--JUNK CODE--
-
-//--JUNK CODE--
 
 void flag1() {
   strcat(test,"FLAG_PART_1");
@@ -58,6 +55,9 @@ void flag3(unsigned int arg_check1) {
 
 
 void flag6(unsigned int arg_check2, unsigned int arg_check3) {
+//--JUNK CODE--
+
+//--JUNK CODE--
   if (arg_check2 == 0xBBCCDDE7) {
     if(arg_check3==0xBBCCDDE1){
         strcat(test,"FLAG_WRONG");
@@ -127,6 +127,9 @@ void vuln() {
 }
 
 int main(int argc, char **argv){
+//--JUNK CODE--
+
+//--JUNK CODE--
 
   setvbuf(stdout, NULL, _IONBF, 0);
 
@@ -136,3 +139,9 @@ int main(int argc, char **argv){
   setresgid(gid, gid, gid);
   vuln();
 }
+
+
+//--JUNK CODE--
+
+//--JUNK CODE--
+
