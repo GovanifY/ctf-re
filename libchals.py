@@ -10,7 +10,10 @@ Some limitations:
     You must write junk code from bottom to top, aka first junk calls,
     then junk definition, from the bottom up.
 """
+
+HASH_ROUND=-1
 def rng(index):
+    global HASH_ROUND
     BUF_SIZE = 65536 
     sha2 = hashlib.sha256()
 
@@ -21,6 +24,8 @@ def rng(index):
                 break
             sha2.update(data)
     hash_final=bytes.fromhex(sha2.hexdigest())
+    for i in range(0, HASH_ROUND):
+        hash_final=bytes.fromhex(hashlib.sha256(hash_final).hexdigest())
     rng=hash_final[index]
     return rng
 
@@ -226,7 +231,14 @@ VAR_NAME=(VAR_NAME/VAR_NAME)*2;
 
 fun_names=[]
 junk_called=0
-def write_junk_body(fd, line):
+def write_junk_body(fd, line, reset=False):
+    global junk_called
+    global fun_names 
+    global HASH_ROUND
+    if(reset==True):
+        fun_names=[]
+        junk_called=0
+        HASH_ROUND+=1
     # junk generator!!
     dont_gen_name=False
     junk_count=rng(0)%len(junk)
@@ -240,9 +252,15 @@ def write_junk_body(fd, line):
         write_line(fd, line,
                 junk[junk_to_add].replace("FUNCTION_NAME",fun_names[i]))
 
-def write_junk_calls(fd, line, count=-1):
+def write_junk_calls(fd, line, count=-1, reset=False):
     # junk generator!!
     global junk_called
+    global fun_names 
+    global HASH_ROUND
+    if(reset==True):
+        fun_names=[]
+        junk_called=0
+        HASH_ROUND+=1 
     junk_count=rng(0)%len(junk)
     if(count==-1):
         count=junk_count+1
