@@ -10,8 +10,8 @@ context.log_level = 'error'
 FNULL = open(os.devnull, 'w')
 
 # junk code generation
-#write_junk_calls("main.c", 31, 2)
-#write_junk_calls("main.c", 22)
+write_junk_calls("main.c", 31, 2)
+write_junk_calls("main.c", 22)
 write_junk_body("main.c", 16)
 
 subprocess.call("make", stdout=FNULL, stderr=FNULL)
@@ -51,8 +51,9 @@ if not flag in output:
     fail_test()
 
 
-#os.remove("main.c")
+os.remove("main.c")
 os.remove("Makefile")
 os.remove("setup.py")
 # solution
-#os.remove("input")
+os.remove("input")
+os.remove("notes.txt")

@@ -50,7 +50,7 @@ void flag(unsigned int arg_check4) {
 
 void vuln() {
   char buf[16];
-  printf("Enter your input> ");
+  printf("Vous savez quoi faire :) : ");
   return gets(buf);
 }
 
