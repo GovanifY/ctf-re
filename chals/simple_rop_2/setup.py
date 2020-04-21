@@ -4,7 +4,7 @@ import sys
                     # chals_out/chal_name/team_name so 3
 sys.path.insert(1, os.path.join(sys.path[0], '../../..'))
 import shutil
-from libchals import write_junk_calls, write_junk_body, fail_test
+from libchals import write_junk_calls, write_junk_body, fail_test, increment_hash_round
 from pwn import context, ELF, ROP, p64
 
 context.log_level = 'error'
@@ -12,7 +12,7 @@ FNULL = open(os.devnull, 'w')
 
 def make_binary():
     # junk code generation
-    write_junk_calls("main.c", 31, 2, reset=True)
+    write_junk_calls("main.c", 31, 2)
     write_junk_calls("main.c", 22)
     write_junk_body("main.c", 16)
 
@@ -64,6 +64,7 @@ while True:
         # rng jesus is happy
         shutil.copy("main.c.org", "main.c")
         i+=1
+        increment_hash_round()
         if(i>=5):
             print("RNG Jesus isn't happy today, " +
             "it is taking a long time to get a good binary...")

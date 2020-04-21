@@ -231,19 +231,17 @@ VAR_NAME=(VAR_NAME/VAR_NAME)*2;
 
 fun_names=[]
 junk_called=0
-def write_junk_body(fd, line, reset=False):
+def write_junk_body(fd, line):
     global junk_called
     global fun_names 
     global HASH_ROUND
-    if(reset==True):
-        fun_names=[]
-        junk_called=0
-        HASH_ROUND+=1
     # junk generator!!
     dont_gen_name=False
     junk_count=rng(0)%len(junk)
     if(fun_names!=[]):
         dont_gen_name=True
+    else:
+        HASH_ROUND+=1 
     for i in range(0, junk_count+1):
         junk_to_add=rng(i%len(junk))%len(junk)
         # use this 
@@ -252,21 +250,18 @@ def write_junk_body(fd, line, reset=False):
         write_line(fd, line,
                 junk[junk_to_add].replace("FUNCTION_NAME",fun_names[i]))
 
-def write_junk_calls(fd, line, count=-1, reset=False):
+def write_junk_calls(fd, line, count=-1):
     # junk generator!!
     global junk_called
     global fun_names 
     global HASH_ROUND
-    if(reset==True):
-        fun_names=[]
-        junk_called=0
-        HASH_ROUND+=1 
     junk_count=rng(0)%len(junk)
     if(count==-1):
         count=junk_count+1
     else:
         count=junk_called + junk_count//count
     if(fun_names==[] and junk_called==0):
+        HASH_ROUND+=1 
         gen_fun_names()
     for i in range(junk_called, count):
         junk_to_add=rng(i%len(junk))%len(junk)
@@ -282,3 +277,7 @@ def gen_fun_names():
         junk_to_add=rng(i%len(junk))%len(junk)
         # use this 
         fun_names.append(random_name())
+
+def increment_hash_round():
+    global HASH_ROUND
+    HASH_ROUND+=1
