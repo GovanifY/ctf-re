@@ -11,8 +11,10 @@ challenges done:
 * simple_rop
 * simple_rop_2
 * web_server
+* snake_oil 
 
 TODO:
+* web_server_2
+* snake_oil_2
+* access_security
 * modern_rop
-* reverse
-* misc format_string(?)
