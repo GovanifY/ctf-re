@@ -54,7 +54,7 @@ int main(int argc, char **argv)
       }
 #undef HITHERE
 
-      printf("Connecté!\nOn envois le fichier...\n"); fflush(stdout);
+      printf("Connecté!\nOn envoie le fichier...\n"); fflush(stdout);
 
       ffd = open(file, O_RDONLY);
       if(ffd == -1) {
