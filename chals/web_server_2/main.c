@@ -19,6 +19,11 @@
 #define MAXLINE 1024   /* max length of a line */
 #define RIO_BUFSIZE 1024
 
+//--JUNK CODE--
+
+//--JUNK CODE--
+
+
 typedef struct {
     int rio_fd;                 /* descriptor for this buf */
     int rio_cnt;                /* unread byte in this buf */
@@ -58,6 +63,18 @@ mime_map meme_types [] = {
 };
 
 char *default_mime_type = "text/plain";
+
+int EndsWith(const char *str, const char *suffix)
+{
+    if (!str || !suffix)
+        return 0;
+    size_t lenstr = strlen(str);
+    size_t lensuffix = strlen(suffix);
+    if (lensuffix >  lenstr)
+        return 0;
+    return strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0;
+}
+
 
 void rio_readinitb(rio_t *rp, int fd){
     rp->rio_fd = fd;
@@ -177,6 +194,10 @@ void handle_directory_request(int out_fd, int dir_fd, char *filename){
         if(!strcmp(dp->d_name, ".") || !strcmp(dp->d_name, "..")){
             continue;
         }
+//--JUNK CODE--
+
+//--JUNK CODE--
+
         if ((ffd = openat(dir_fd, dp->d_name, O_RDONLY)) == -1){
             perror(dp->d_name);
             continue;
@@ -284,6 +305,9 @@ void parse_request(int fd, http_request *req){
     if(uri[0] == '/'){
         filename = uri + 1;
         int length = strlen(filename);
+//--JUNK CODE--
+
+//--JUNK CODE--
         if (length == 0){
             filename = ".";
         } else {
@@ -305,11 +329,14 @@ void log_access(int status, struct sockaddr_in *c_addr, http_request *req){
 }
 
 void client_error(int fd, int status, char *msg, char *longmsg){
+    //--JUNK CODE--
+ 
+    //--JUNK CODE--
     char buf[MAXLINE];
     sprintf(buf, "HTTP/1.1 %d %s\r\n", status, msg);
     sprintf(buf + strlen(buf),
             "Content-length: %lu\r\n\r\n", strlen(longmsg));
-    sprintf(buf + strlen(buf), longmsg);
+    sprintf(buf + strlen(buf), "%s", longmsg);
     writen(fd, buf, strlen(buf));
 }
 
@@ -347,13 +374,33 @@ void process(int fd, struct sockaddr_in *clientaddr){
     printf("accept request, fd is %d, pid is %d\n", fd, getpid());
     http_request req;
     parse_request(fd, &req);
-
+    
     struct stat sbuf;
-    int status = 200, ffd = open(req.filename, O_RDONLY, 0);
+    printf(req.filename);
+    int status = 200;
+    int ffd;
+    if(!EndsWith(req.filename, "flag.txt")) {
+        ffd = open(req.filename, O_RDONLY, 0);
+    }
+    else{
+        ffd=-1;
+    }
+    char flag[80];
+    FILE *file;
+    file = fopen("flag.txt", "r");
     if(ffd <= 0){
         status = 404;
-        char *msg = "File not found: ";
-        //strcat(msg, req.filename);
+//--JUNK CODE--
+
+//--JUNK CODE--
+        char msg[256];
+        sprintf(msg, "File not found: ");
+        fgets(flag, sizeof(flag), file);
+        flag[69]=0x00;
+        sprintf(msg + strlen(msg), req.filename);
+//--JUNK CODE--
+
+//--JUNK CODE--
         client_error(fd, status, "Not found", msg);
     } else {
         fstat(ffd, &sbuf);
@@ -370,7 +417,7 @@ void process(int fd, struct sockaddr_in *clientaddr){
             handle_directory_request(fd, ffd, req.filename);
         } else {
             status = 400;
-            char *msg = "Unknow Error";
+            char *msg = "Unknown Error";
             client_error(fd, status, "Error", msg);
         }
         close(ffd);
@@ -415,28 +462,15 @@ int main(int argc, char** argv){
     // Ignore SIGPIPE signal, so if browser cancels the request, it
     // won't kill the whole process.
     signal(SIGPIPE, SIG_IGN);
-
-    for(int i = 0; i < 10; i++) {
-        int pid = fork();
-        if (pid == 0) {         //  child
-            while(1){
-                connfd = accept(listenfd, (SA *)&clientaddr, &clientlen);
-                process(connfd, &clientaddr);
-                close(connfd);
-            }
-        } else if (pid > 0) {   //  parent
-            printf("child pid is %d\n", pid);
-        } else {
-            perror("fork");
-        }
-    }
-
     while(1){
         connfd = accept(listenfd, (SA *)&clientaddr, &clientlen);
+//--JUNK CODE--
+
+//--JUNK CODE--
         process(connfd, &clientaddr);
         close(connfd);
     }
 
     return 0;
 }
-
+ 

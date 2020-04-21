@@ -14,7 +14,7 @@ challenges done:
 * snake_oil 
 * snake_oil_2
 * access_security
+* web_server_2
 
 TODO:
-* web_server_2
 * modern_rop
