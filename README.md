@@ -12,9 +12,9 @@ challenges done:
 * simple_rop_2
 * web_server
 * snake_oil 
+* snake_oil_2
 
 TODO:
 * web_server_2
-* snake_oil_2
 * access_security
 * modern_rop

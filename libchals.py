@@ -231,13 +231,17 @@ VAR_NAME=(VAR_NAME/VAR_NAME)*2;
 
 fun_names=[]
 junk_called=0
+junk_min=0
 def write_junk_body(fd, line):
     global junk_called
     global fun_names 
     global HASH_ROUND
     # junk generator!!
     dont_gen_name=False
+    global junk_min
     junk_count=rng(0)%len(junk)
+    if(junk_count<=junk_min):
+        junk_count=junk_min
     if(fun_names!=[]):
         dont_gen_name=True
     else:
@@ -255,7 +259,10 @@ def write_junk_calls(fd, line, count=-1):
     global junk_called
     global fun_names 
     global HASH_ROUND
+    global junk_min
     junk_count=rng(0)%len(junk)
+    if(junk_count<=junk_min):
+        junk_count=junk_min
     if(count==-1):
         count=junk_count+1
     else:
@@ -270,9 +277,16 @@ def write_junk_calls(fd, line, count=-1):
         write_line(fd, line, tmp.replace("VAR_NAME", random_name()))
         junk_called+=1
 
+def set_junk_min(m):
+    global junk_min
+    junk_min=m
+
 def gen_fun_names():
     # junk generator!!
+    global junk_min
     junk_count=rng(0)%len(junk)
+    if(junk_count<=junk_min):
+        junk_count=junk_min
     for i in range(0, junk_count+1):
         junk_to_add=rng(i%len(junk))%len(junk)
         # use this 
