@@ -11,7 +11,7 @@ Some limitations:
     then junk definition, from the bottom up.
 """
 
-HASH_ROUND=-1
+HASH_ROUND=0
 def rng(index):
     global HASH_ROUND
     BUF_SIZE = 65536 
@@ -235,7 +235,6 @@ junk_min=0
 def write_junk_body(fd, line):
     global junk_called
     global fun_names 
-    global HASH_ROUND
     # junk generator!!
     dont_gen_name=False
     global junk_min
@@ -244,10 +243,8 @@ def write_junk_body(fd, line):
         junk_count=junk_min
     if(fun_names!=[]):
         dont_gen_name=True
-    else:
-        HASH_ROUND+=1 
     for i in range(0, junk_count+1):
-        junk_to_add=rng(i%len(junk))%len(junk)
+        junk_to_add=rng(i%32)%len(junk)
         # use this 
         if(not dont_gen_name):
             fun_names.append(random_name())
@@ -258,7 +255,6 @@ def write_junk_calls(fd, line, count=-1):
     # junk generator!!
     global junk_called
     global fun_names 
-    global HASH_ROUND
     global junk_min
     junk_count=rng(0)%len(junk)
     if(junk_count<=junk_min):
@@ -268,10 +264,11 @@ def write_junk_calls(fd, line, count=-1):
     else:
         count=junk_called + junk_count//count
     if(fun_names==[] and junk_called==0):
-        HASH_ROUND+=1 
         gen_fun_names()
+    if(count>=junk_count):
+        count=junk_count
     for i in range(junk_called, count):
-        junk_to_add=rng(i%len(junk))%len(junk)
+        junk_to_add=rng(i%32)%len(junk)
         # use this 
         tmp=junk_calls[junk_to_add].replace("FUNCTION_NAME", fun_names[i])
         write_line(fd, line, tmp.replace("VAR_NAME", random_name()))
@@ -284,14 +281,20 @@ def set_junk_min(m):
 def gen_fun_names():
     # junk generator!!
     global junk_min
+    global fun_names
     junk_count=rng(0)%len(junk)
     if(junk_count<=junk_min):
         junk_count=junk_min
     for i in range(0, junk_count+1):
-        junk_to_add=rng(i%len(junk))%len(junk)
+        junk_to_add=rng(i%32)%len(junk)
         # use this 
         fun_names.append(random_name())
 
 def increment_hash_round():
+    # aka reset state
     global HASH_ROUND
+    global fun_names
+    global junk_called
+    fun_names=[]
+    junk_called=0
     HASH_ROUND+=1

@@ -95,14 +95,14 @@ for i in chals:
     regex_done=False
 
     # we calculate the location of the identifying bytes
-    salt_chal=small_hash(i)
+    salt_chal=small_hash(i+SECRET)
     salts=[]
     for z in range(0, 4):
         salts=add_salt(salts, salt_chal[z]%32)
 
     for y in team_names:
         copy_dir("chals/" + i, "chals_out/" + i + "/" +  y)
-        uni_hash=small_hash(i+y)
+        uni_hash=small_hash(i+y+SECRET)
         # make it a bit harder to guess the format of the sha2
         chal_name=i+SECRET
         hash_final=bytearray(bytes.fromhex(hashlib.sha256(chal_name.encode()).hexdigest()))
