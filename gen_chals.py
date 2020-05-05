@@ -49,7 +49,7 @@ def avoid_borders(salts):
     for i in range(0, len(salts)):
         if(salts[i]==0):
             salts[i]+=2
-        elif(salts[i]==32):
+        elif(salts[i]==31):
             salts[i]-=2
 
 # check if a list has a duplicate element el
