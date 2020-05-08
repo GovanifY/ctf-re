@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 
 //--JUNK CODE--
       sin.sin_addr.s_addr = inet_addr(host);
-      sin.sin_port = htons(1337);
+      sin.sin_port = htons((unsigned int)strtoul(getenv("PORT"), NULL, 0));
 
       if(connect(fd, (void *)&sin, sizeof(struct sockaddr_in)) == -1) {
           printf("Impossible de se connecter\n");

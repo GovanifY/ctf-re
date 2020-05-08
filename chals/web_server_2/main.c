@@ -430,12 +430,13 @@ int main(int argc, char** argv){
     int default_port = 9999,
         listenfd,
         connfd;
+    default_port = atoi(getenv("PORT"));
     char buf[256];
     char *path = getcwd(buf, 256);
     socklen_t clientlen = sizeof clientaddr;
     if(argc == 2) {
         if(argv[1][0] >= '0' && argv[1][0] <= '9') {
-            default_port = atoi(argv[1]);
+            //default_port = atoi(argv[1]);
         } else {
             path = argv[1];
             if(chdir(argv[1]) != 0) {
@@ -444,7 +445,7 @@ int main(int argc, char** argv){
             }
         }
     } else if (argc == 3) {
-        default_port = atoi(argv[2]);
+        //default_port = atoi(argv[2]);
         path = argv[1];
         if(chdir(argv[1]) != 0) {
             perror(argv[1]);

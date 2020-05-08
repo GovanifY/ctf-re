@@ -164,5 +164,5 @@ class Server:
         return {"body": data, "mime": mime, "status": status}
 
 
-A=Server("0.0.0.0", 8080)
+A=Server("0.0.0.0", int(os.environ['PORT']))
 A.listen()
