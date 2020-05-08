@@ -427,10 +427,9 @@ void process(int fd, struct sockaddr_in *clientaddr){
 
 int main(int argc, char** argv){
     struct sockaddr_in clientaddr;
-    int default_port = 9999,
-        listenfd,
-        connfd;
-    default_port = atoi(getenv("PORT"));
+    int default_port = atoi(getenv("PORT"));
+    int listenfd;
+    int connfd;
     char buf[256];
     char *path = getcwd(buf, 256);
     socklen_t clientlen = sizeof clientaddr;
