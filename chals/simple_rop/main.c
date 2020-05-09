@@ -43,7 +43,7 @@ void flag(unsigned int arg_check4) {
 
   fgets(flag, sizeof(flag), file);
   if (win1 && win2 && arg_check4 == 0xABADBABE) {
-    printf("%s", flag);
+    printf("%s", flag); fflush(stdout);
     return;
   }
 }

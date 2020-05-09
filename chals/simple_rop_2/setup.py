@@ -39,7 +39,7 @@ def make_binary():
     f.close()
 
     # strip it after the ropchain building so they don't have the symbols but we do
-    #subprocess.call(["strip", "simple_rop_2"], stdout=FNULL, stderr=FNULL)
+    subprocess.call(["strip", "simple_rop_2"], stdout=FNULL, stderr=FNULL)
 
     # TESTING BINARY
     f=open("flag.txt", 'r')
