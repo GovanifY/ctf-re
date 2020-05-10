@@ -12,10 +12,10 @@
 
 int main(int argc, const char **argv)
 {
-  char s[8];
+  char s[16];
  
   printf("Qui êtes vous? ");
-  fgets(s, 16, stdin);
+  fgets(s, 32, stdin);
   long buffer[80];
   for(int i=0; i<80; i++){
       buffer[i]=0x4141414141414141;
@@ -35,7 +35,7 @@ int main(int argc, const char **argv)
       }
   }
   printf("Vous êtes donc: ");
-  printf(s, 16);
+  printf(s, 32);
   printf(" !\nQuel est votre mot du jour? ");
 //--JUNK CODE--
 

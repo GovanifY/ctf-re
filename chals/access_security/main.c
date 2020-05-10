@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 {
   char *file;
   char *host;
-
+  setvbuf(stdout, NULL, _IONBF, 0);   gid_t gid = getegid(); setresgid(gid, gid, gid);
   file = argv[1];
   host = argv[2];
 
