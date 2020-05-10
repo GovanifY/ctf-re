@@ -32,7 +32,7 @@ void flag2(unsigned int arg_check1) {
     strcat(test,"FLAG_WRONG");
   }
   if (arg_check1 == 0xAABBCCD5) {
-    strcat(test,"FLAG_WRONG");
+    strcat(test,"FLAG_PART_6");
   }
 
 }
@@ -91,7 +91,7 @@ void flag6(unsigned int arg_check2, unsigned int arg_check3) {
         strcat(test,"FLAG_WRONG");
     }
      if(arg_check3==0xBBCCDDE3){
-        strcat(test,"FLAG_PART_6");
+        strcat(test,"FLAG_PART_7");
     }
   }
   if (arg_check2 == 0xBBCCDDEA) {

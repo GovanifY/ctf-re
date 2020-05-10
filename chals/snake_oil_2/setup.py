@@ -34,6 +34,9 @@ write_junk_calls("main.c", 33)
 write_junk_body("main.c", 15)
 subprocess.call("make", stdout=FNULL, stderr=FNULL)
 
+f=open("input", "w")
+f.write(bytes(key).hex())
+f.close()
 # TESTING BINARY
 try:
     output = subprocess.check_output("./snake_oil_2 " + bytes(key).hex(), shell=True, stderr=subprocess.STDOUT)
@@ -46,3 +49,4 @@ os.remove("main.c")
 os.remove("Makefile")
 os.remove("setup.py")
 os.remove("flag.txt")
+os.remove("input")
