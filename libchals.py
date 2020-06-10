@@ -49,12 +49,12 @@ def replace_text(fd, to_change, text):
     fdd.writelines(buf) 
     fdd.close()
 
-def replace_text_random_hash(fd, to_change):
+def replace_text_random_hash(fd, to_change, size_hash=10):
     fdd = open(fd, "r")
     buf = fdd.readlines()
 
     for i in range(0, len(buf)-1):
-        buf[i]=buf[i].replace(to_change,random_name(size=10, chars="0123456789abcdef"))
+        buf[i]=buf[i].replace(to_change,random_name(size=size_hash, chars="0123456789abcdef"))
 
     fdd = open(fd, "w")
     fdd.writelines(buf) 

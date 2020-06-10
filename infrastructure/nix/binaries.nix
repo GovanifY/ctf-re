@@ -10,6 +10,8 @@ let
     web_server = 64;
     web_server_2 = 32;
     access_security = 64;
+    intro_reverse = 32;
+    intro_rop = 32;
   };
   mkBinarySourcePath = teamName: challengeMeta: challengesBinarySources + "/${challengeMeta.name}/${teamName}";
   genericInstallPhase = ''
