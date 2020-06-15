@@ -33,7 +33,7 @@ def build_email(team):
     Messieurs, Mesdames, {names},
 
     Si vous recevez cet email, c'est que dans les prochaines heures, vous serez au bout de votre vie.
-    En effet, votre mission [1], si vous l'acceptez, c'est de prendre les clefs SSH ED25519 ci-jointes.
+    En effet, votre mission [1], si vous l'acceptez, est de prendre les clefs SSH ED25519 ci-jointes.
 
     Et de vous connecter à {LINK} afin de recevoir vos futures instructions.
 
